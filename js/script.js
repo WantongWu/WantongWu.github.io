@@ -1,152 +1,137 @@
-var searchvisible = 0;
+(function($){
+  // Search
+  var $searchWrap = $('#search-form-wrap'),
+    isSearchAnim = false,
+    searchAnimDuration = 200;
 
-$("#search-menu").click(function(e){ 
-    //This stops the page scrolling to the top on a # link.
+  var startSearchAnim = function(){
+    isSearchAnim = true;
+  };
+
+  var stopSearchAnim = function(callback){
+    setTimeout(function(){
+      isSearchAnim = false;
+      callback && callback();
+    }, searchAnimDuration);
+  };
+
+  $('#nav-search-btn').on('click', function(){
+    if (isSearchAnim) return;
+
+    startSearchAnim();
+    $searchWrap.addClass('on');
+    stopSearchAnim(function(){
+      $('.search-form-input').focus();
+    });
+  });
+
+  $('.search-form-input').on('blur', function(){
+    startSearchAnim();
+    $searchWrap.removeClass('on');
+    stopSearchAnim();
+  });
+
+  // Share
+  $('body').on('click', function(){
+    $('.article-share-box.on').removeClass('on');
+  }).on('click', '.article-share-link', function(e){
+    e.stopPropagation();
+
+    var $this = $(this),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      id = 'article-share-box-' + $this.attr('data-id'),
+      offset = $this.offset();
+
+    if ($('#' + id).length){
+      var box = $('#' + id);
+
+      if (box.hasClass('on')){
+        box.removeClass('on');
+        return;
+      }
+    } else {
+      var html = [
+        '<div id="' + id + '" class="article-share-box">',
+          '<input class="article-share-input" value="' + url + '">',
+          '<div class="article-share-links">',
+            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="article-share-pinterest" target="_blank" title="Pinterest"></a>',
+            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="article-share-google" target="_blank" title="Google+"></a>',
+          '</div>',
+        '</div>'
+      ].join('');
+
+      var box = $(html);
+
+      $('body').append(box);
+    }
+
+    $('.article-share-box.on').hide();
+
+    box.css({
+      top: offset.top + 25,
+      left: offset.left
+    }).addClass('on');
+  }).on('click', '.article-share-box', function(e){
+    e.stopPropagation();
+  }).on('click', '.article-share-box-input', function(){
+    $(this).select();
+  }).on('click', '.article-share-box-link', function(e){
     e.preventDefault();
+    e.stopPropagation();
 
-    var val = $('#search-icon');
-    if(val.hasClass('ion-ios-search-strong')){
-        val.addClass('ion-ios-close-empty');
-        val.removeClass('ion-ios-search-strong');
-    }
-    else{
-         val.removeClass('ion-ios-close-empty');
-        val.addClass('ion-ios-search-strong');
-    }
-    
-    
-    if (searchvisible ===0) {
-        //Search is currently hidden. Slide down and show it.
-        $("#search-form").slideDown(200);
-        $("#s").focus(); //Set focus on the search input field.
-        searchvisible = 1; //Set search visible flag to visible.
-    } 
+    window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+  });
 
-    else {
-        //Search is currently showing. Slide it back up and hide it.
-        $("#search-form").slideUp(200);
-        searchvisible = 0;
-    }
-});
+  // Caption
+  $('.article-entry').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
 
-/*!
- * classie - class helper functions
- * from bonzo https://github.com/ded/bonzo
- * 
- * classie.has( elem, 'my-class' ) -> true/false
- * classie.add( elem, 'my-new-class' )
- * classie.remove( elem, 'my-unwanted-class' )
- * classie.toggle( elem, 'my-class' )
- */
+      var alt = this.alt;
 
-/*jshint browser: true, strict: true, undef: true */
-/*global define: false */
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
 
-( function( window ) {
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
 
-'use strict';
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
 
-// class helper functions from bonzo https://github.com/ded/bonzo
+  if ($.fancybox){
+    $('.fancybox').fancybox();
+  }
 
-function classReg( className ) {
-  return new RegExp("(^|\\s+)" + className + "(\\s+|$)");
-}
+  // Mobile nav
+  var $container = $('#container'),
+    isMobileNavAnim = false,
+    mobileNavAnimDuration = 200;
 
-// classList support for class management
-// altho to be fair, the api sucks because it won't accept multiple classes at once
-var hasClass, addClass, removeClass;
-
-if ( 'classList' in document.documentElement ) {
-  hasClass = function( elem, c ) {
-    return elem.classList.contains( c );
+  var startMobileNavAnim = function(){
+    isMobileNavAnim = true;
   };
-  addClass = function( elem, c ) {
-    elem.classList.add( c );
-  };
-  removeClass = function( elem, c ) {
-    elem.classList.remove( c );
-  };
-}
-else {
-  hasClass = function( elem, c ) {
-    return classReg( c ).test( elem.className );
-  };
-  addClass = function( elem, c ) {
-    if ( !hasClass( elem, c ) ) {
-      elem.className = elem.className + ' ' + c;
-    }
-  };
-  removeClass = function( elem, c ) {
-    elem.className = elem.className.replace( classReg( c ), ' ' );
-  };
-}
 
-function toggleClass( elem, c ) {
-  var fn = hasClass( elem, c ) ? removeClass : addClass;
-  fn( elem, c );
-}
+  var stopMobileNavAnim = function(){
+    setTimeout(function(){
+      isMobileNavAnim = false;
+    }, mobileNavAnimDuration);
+  }
 
-var classie = {
-  // full names
-  hasClass: hasClass,
-  addClass: addClass,
-  removeClass: removeClass,
-  toggleClass: toggleClass,
-  // short names
-  has: hasClass,
-  add: addClass,
-  remove: removeClass,
-  toggle: toggleClass
-};
+  $('#main-nav-toggle').on('click', function(){
+    if (isMobileNavAnim) return;
 
-// transport
-if ( typeof define === 'function' && define.amd ) {
-  // AMD
-  define( classie );
-} else {
-  // browser global
-  window.classie = classie;
-}
+    startMobileNavAnim();
+    $container.toggleClass('mobile-nav-on');
+    stopMobileNavAnim();
+  });
 
-})( window );
+  $('#wrap').on('click', function(){
+    if (isMobileNavAnim || !$container.hasClass('mobile-nav-on')) return;
 
-(function() {
-    var triggerBttn = document.getElementById( 'trigger-overlay' ),
-        overlay = document.querySelector( 'div.overlay' ),
-        closeBttn = overlay.querySelector( 'button.overlay-close' );
-        transEndEventNames = {
-            'WebkitTransition': 'webkitTransitionEnd',
-            'MozTransition': 'transitionend',
-            'OTransition': 'oTransitionEnd',
-            'msTransition': 'MSTransitionEnd',
-            'transition': 'transitionend'
-        },
-        transEndEventName = transEndEventNames[ Modernizr.prefixed( 'transition' ) ],
-        support = { transitions : Modernizr.csstransitions };
-
-    function toggleOverlay() {
-        if( classie.has( overlay, 'open' ) ) {
-            classie.remove( overlay, 'open' );
-            classie.add( overlay, 'close' );
-            var onEndTransitionFn = function( ev ) {
-                if( support.transitions ) {
-                    if( ev.propertyName !== 'visibility' ) return;
-                    this.removeEventListener( transEndEventName, onEndTransitionFn );
-                }
-                classie.remove( overlay, 'close' );
-            };
-            if( support.transitions ) {
-                overlay.addEventListener( transEndEventName, onEndTransitionFn );
-            }
-            else {
-                onEndTransitionFn();
-            }
-        }
-        else if( !classie.has( overlay, 'close' ) ) {
-            classie.add( overlay, 'open' );
-        }
-    }
-
-    triggerBttn.addEventListener( 'click', toggleOverlay );
-    closeBttn.addEventListener( 'click', toggleOverlay );
-})();
+    $container.removeClass('mobile-nav-on');
+  });
+})(jQuery);
