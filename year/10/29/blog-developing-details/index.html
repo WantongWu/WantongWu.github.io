@@ -26,7 +26,7 @@
 <meta property="og:site_name" content="Go psycho or be normal">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-10-29T08:42:09.672Z">
-<meta property="article:modified_time" content="2020-11-03T07:24:57.175Z">
+<meta property="article:modified_time" content="2020-11-05T13:37:02.407Z">
 <meta property="article:author" content="Wantong Wu">
 <meta property="article:tag" content="record">
 <meta name="twitter:card" content="summary">
@@ -189,7 +189,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-11-03 15:24:57" itemprop="dateModified" datetime="2020-11-03T15:24:57+08:00">2020-11-03</time>
+                <time title="Modified: 2020-11-05 21:37:02" itemprop="dateModified" datetime="2020-11-05T21:37:02+08:00">2020-11-05</time>
               </span>
 
           
@@ -203,17 +203,32 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/lightgallery.js/1.0.1/css/lightgallery.min.css"><div class=".article-gallery" <p>This blog recorded details of every progress in building this blog. <p></p>
-<p>I am a newbie in computer science from the start, and every errors below could appear to a newbie who wants to build blog on his or her own. It could be helful reference.</p>
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/lightgallery.js/1.0.1/css/lightgallery.min.css"><div class=".article-gallery" <p>This post records details of progress in building this blog. <p></p>
+<p>I am a newbie in computer science, and every errors below could appear to a newbie who wants to build blog on his or her own. It could be helpful reference.</p>
+<a id="more"></a>
+
+<p>Note: Underlined errors is copied from terminal. Errors not underlined are summary of the situation.</p>
 <h2 id="2020"><a href="#2020" class="headerlink" title="2020"></a>2020</h2><hr>
 <h3 id="October"><a href="#October" class="headerlink" title="October"></a>October</h3><h4 id="10-29"><a href="#10-29" class="headerlink" title="10.29"></a>10.29</h4><p>The personal blog was built.</p>
-<p><u>NexT</u> theme was utilized.</p>
-<h3 id="November"><a href="#November" class="headerlink" title="November"></a>November</h3><h4 id="11-1"><a href="#11-1" class="headerlink" title="11.1"></a>11.1</h4><p>Any publishment of new post is thrown to error. </p>
-<p>(<u>err: ValidationError: “slug” is required!</u>)</p>
-<h4 id="11-2"><a href="#11-2" class="headerlink" title="11.2"></a>11.2</h4><p>“<u>ValidationError: “slug” is required!</u>“ Solved.</p>
-<p>Due to error “this.name is required!”, which was thrown because of new posts’ title in config was automatically “title.md”.</p>
+<p>NexT theme was utilized.</p>
+<h3 id="November"><a href="#November" class="headerlink" title="November"></a>November</h3><h4 id="11-1"><a href="#11-1" class="headerlink" title="11.1"></a>11.1</h4><h5 id="err-ValidationError-“slug”-is-required"><a href="#err-ValidationError-“slug”-is-required" class="headerlink" title="(err: ValidationError: “slug” is required!)"></a>(<u>err: ValidationError: “slug” is required!</u>)</h5><p>Any publishment of new post is thrown to error. </p>
+<h4 id="11-2"><a href="#11-2" class="headerlink" title="11.2"></a>11.2</h4><h5 id="“ValidationError-‘slug’-is-required-“-Solved"><a href="#“ValidationError-‘slug’-is-required-“-Solved" class="headerlink" title="“ValidationError: ‘slug’ is required!“ Solved."></a>“<u>ValidationError: ‘slug’ is required!</u>“ Solved.</h5><p>Due to an error tips found in JavaScript “this.name is required!”, which was thrown because of new posts’ title in config was automatically “title.md”.</p>
 <p>Solution is to change title.md in slug form.</p>
-<p>There is no need to add slug in the beginning of markdown file.</p>
+<p>There is no need to add slug in the beginning of the markdown file.</p>
+<h5 id="Error-pictures-could-not-be-shown"><a href="#Error-pictures-could-not-be-shown" class="headerlink" title="Error: pictures could not be shown"></a>Error: pictures could not be shown</h5><p>Although format to insert pic was right, the pictures still couldn’t be shown.</p>
+<h4 id="11-3"><a href="#11-3" class="headerlink" title="11.3"></a>11.3</h4><h5 id="“Error-pictures-could-not-be-shown”-Solved"><a href="#“Error-pictures-could-not-be-shown”-Solved" class="headerlink" title="“Error: pictures could not be shown” Solved."></a>“Error: pictures could not be shown” Solved.</h5><p>Install hexo-asset-image plugin:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-asset-image --save</span><br></pre></td></tr></table></figure>
+
+<p>Make sure value of <code>post_asset_folder</code> in <strong>_config.yml</strong> is true</p>
+<p><code>post_asset_folder: true</code> </p>
+<p>(Tips: space should be added after colon)</p>
+<p>A new markdown file would be generated with a folder. They should have same name. Put intended pictures in folder and insert them in markdown file.</p>
+<p>To insert pic, use </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;% asset_img picName label %&#125;</span><br></pre></td></tr></table></figure>
+
+<p>For example:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;% asset_img 1.jpg SOLD - DO NOT COPY %&#125;</span><br></pre></td></tr></table></figure>
+
 </div><script src="https://cdn.jsdelivr.net/lightgallery.js/1.0.1/js/lightgallery.min.js"></script><script>if (typeof lightGallery !== 'undefined') {
         var options = {
             selector: '.gallery-item'
@@ -299,7 +314,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#2020"><span class="nav-number">1.</span> <span class="nav-text">2020</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#October"><span class="nav-number">1.1.</span> <span class="nav-text">October</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#10-29"><span class="nav-number">1.1.1.</span> <span class="nav-text">10.29</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#November"><span class="nav-number">1.2.</span> <span class="nav-text">November</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#11-1"><span class="nav-number">1.2.1.</span> <span class="nav-text">11.1</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#11-2"><span class="nav-number">1.2.2.</span> <span class="nav-text">11.2</span></a></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#2020"><span class="nav-number">1.</span> <span class="nav-text">2020</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#October"><span class="nav-number">1.1.</span> <span class="nav-text">October</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#10-29"><span class="nav-number">1.1.1.</span> <span class="nav-text">10.29</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#November"><span class="nav-number">1.2.</span> <span class="nav-text">November</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#11-1"><span class="nav-number">1.2.1.</span> <span class="nav-text">11.1</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#err-ValidationError-%E2%80%9Cslug%E2%80%9D-is-required"><span class="nav-number">1.2.1.1.</span> <span class="nav-text">(err: ValidationError: “slug” is required!)</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#11-2"><span class="nav-number">1.2.2.</span> <span class="nav-text">11.2</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E2%80%9CValidationError-%E2%80%98slug%E2%80%99-is-required-%E2%80%9C-Solved"><span class="nav-number">1.2.2.1.</span> <span class="nav-text">“ValidationError: ‘slug’ is required!“ Solved.</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Error-pictures-could-not-be-shown"><span class="nav-number">1.2.2.2.</span> <span class="nav-text">Error: pictures could not be shown</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#11-3"><span class="nav-number">1.2.3.</span> <span class="nav-text">11.3</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E2%80%9CError-pictures-could-not-be-shown%E2%80%9D-Solved"><span class="nav-number">1.2.3.1.</span> <span class="nav-text">“Error: pictures could not be shown” Solved.</span></a></li></ol></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
